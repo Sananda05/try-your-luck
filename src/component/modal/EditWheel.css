@@ -1,0 +1,72 @@
+.modal{
+    position: absolute;
+    justify-content: center;
+    width: 350px;
+    height: 400px;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 .5px 6px rgb(195, 193, 193);
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.modal-content form {
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .value_input{
+    height: 45px;
+    width: 230px;
+    padding-left: 20px;
+    border: none;
+    border-radius: 8px;
+    margin-top: 50px;
+    background-color: var(--gray);
+  }
+
+  select{
+    height: 45px;
+    width: 250px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--gray);
+
+  }
+
+  .color_input{
+    border: none;
+    background-color: rgb(--light-purple);
+    cursor: pointer;
+  }
+
+  .modal_button_group{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+  }
+
+  .modal-content button{
+    height: 35px;
+    width: 80px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .create_btn{
+    color: var(--secondary-purple);
+  }
+
+  .cancel_btn{
+    color: var( --inactive-black);
+  }

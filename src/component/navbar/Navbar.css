@@ -1,9 +1,9 @@
-.header{
+/* .header{
     position: sticky;
     top: 0px;
     overflow: hidden;
     z-index: 1;
-}
+} */
 
 .navbar{
     display: flex;
@@ -16,6 +16,21 @@
     border-bottom-right-radius: 2vw;
     box-shadow: 0 .5px 6px rgb(195, 193, 193);
    
+}
+
+.navbar_button{
+    height: 20px;
+    width: 100px;
+    background-color: var(--gray);
+    color: var(--secondary);
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    cursor: pointer;
+    
 }
 
 .navbar_title{
