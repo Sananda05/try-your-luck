@@ -46,11 +46,13 @@ const EditWheelModal = ({
             id="value"
             name="value"
             ref={valueRef}
+            required
             //   onKeyDown={handleKeyDown}
           />
           <select
             id="selectOption"
             value={selectedOption}
+            required
             onChange={handleSelectChange}
           >
             <option value="">Select type</option>

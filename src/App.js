@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import Navbar from "./component/navbar/Navbar";
 import SpinnerComponent from "./component/spinner/SpinnerComponent";
@@ -29,8 +29,16 @@ function App() {
 
   const getWinnerListFromLocalStorage = () => {
     const storedWinnerList = localStorage.getItem("winnerList");
-    return storedWinnerList ? JSON.parse(storedWinnerList) : [];
+    if (storedWinnerList) {
+      return JSON.parse(storedWinnerList);
+    }
+    return [];
   };
+
+  useEffect(() => {
+    const storedWinnerList = getWinnerListFromLocalStorage();
+    setWinnerList(storedWinnerList);
+  }, []);
 
   const [winnerList, setWinnerList] = useState(getWinnerListFromLocalStorage());
 
