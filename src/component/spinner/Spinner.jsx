@@ -4,16 +4,12 @@ const Spinner = ({
   segColors,
   winnerList,
   setWinnerList,
-  winningSegment,
-  onFinished,
   primaryColor,
   primaryColoraround,
   contrastColor,
   buttonText,
   isOnlyOnce = true,
-  size = 290,
-  upDuration = 1000,
-  downDuration = 100,
+  size = 200,
   fontFamily = "proxima-nova",
   width = 100,
   height = 100,
@@ -27,15 +23,17 @@ const Spinner = ({
   let angleDelta = 0;
   let canvasContext = null;
   let maxSpeed = Math.PI / `${segments.length}`;
-  const upTime = segments.length * upDuration;
-  const downTime = segments.length * downDuration;
+
   let spinStart = 0;
-  let frames = 0;
+
   const centerX = 300;
   const centerY = 300;
 
   const nameRef = useRef("");
   const emailRef = useRef("");
+  const discountRef = useRef(100);
+
+  let downTime = 1000;
 
   useEffect(() => {
     wheelInit();
@@ -66,8 +64,8 @@ const Spinner = ({
     canvasContext = canvas.getContext("2d");
   };
   const spin = () => {
-    console.log(nameRef.current.value);
-    console.log(emailRef.current.value);
+    downTime = segments.length * Number(discountRef.current.value);
+
     if (nameRef.current.value === "") alert("Please enter a valid username");
     if (!isValidEmail(emailRef.current.value))
       alert("Please enter a valid email");
@@ -75,62 +73,40 @@ const Spinner = ({
     const isEmailExists = winnerList.some(
       (user) => user.email === emailRef.current.value
     );
-    console.log(isEmailExists);
-    if (isEmailExists) {
+
+    if (!isEmailExists) {
+      if (
+        nameRef.current.value.trim() !== "" &&
+        isValidEmail(emailRef.current.value)
+      ) {
+        isStarted = true;
+        if (timerHandle === 0) {
+          spinStart = new Date().getTime();
+          maxSpeed = Math.PI / segments.length;
+
+          timerHandle = setInterval(onTimerTick, timerDelay);
+        }
+      }
+    } else {
       alert("Email already exists, Try with another email");
       emailRef.current.value = "";
     }
-
-    if (
-      nameRef.current.value.trim() !== "" &&
-      isValidEmail(emailRef.current.value)
-    ) {
-      isStarted = true;
-      if (timerHandle === 0) {
-        spinStart = new Date().getTime();
-        maxSpeed = Math.PI / segments.length;
-        frames = 0;
-        timerHandle = setInterval(onTimerTick, timerDelay);
-      }
-    }
   };
   const onTimerTick = () => {
-    frames++;
     draw();
+
     const duration = new Date().getTime() - spinStart;
+
     let progress = 0;
     let finished = false;
-    if (duration < upTime) {
-      progress = duration / upTime;
-      angleDelta = maxSpeed * Math.sin((progress * Math.PI) / 2);
-    } else {
-      if (winningSegment) {
-        if (currentSegment === winningSegment && frames > segments.length) {
-          progress = duration / upTime;
-          angleDelta =
-            maxSpeed * Math.sin((progress * Math.PI) / 2 + Math.PI / 2);
-          progress = 1;
-        } else {
-          progress = duration / downTime;
-          angleDelta =
-            maxSpeed * Math.sin((progress * Math.PI) / 2 + Math.PI / 2);
-        }
-      } else {
-        progress = duration / downTime;
-        if (progress >= 0.8) {
-          angleDelta =
-            (maxSpeed / 1.2) * Math.sin((progress * Math.PI) / 2 + Math.PI / 2);
-        } else if (progress >= 0.98) {
-          angleDelta =
-            (maxSpeed / 2) * Math.sin((progress * Math.PI) / 2 + Math.PI / 2);
-        } else
-          angleDelta =
-            maxSpeed * Math.sin((progress * Math.PI) / 2 + Math.PI / 2);
-      }
-      if (progress >= 1) finished = true;
-    }
+
+    progress = duration / downTime;
+    angleDelta = maxSpeed * Math.sin((progress * Math.PI) / 2 + Math.PI / 2);
+    if (progress >= 1) finished = true;
+
     angleCurrent += angleDelta;
     while (angleCurrent >= Math.PI * 2) angleCurrent -= Math.PI * 2;
+
     if (finished) {
       setFinished(true);
 
@@ -256,6 +232,14 @@ const Spinner = ({
           required
         />
         <input type="text" ref={emailRef} placeholder="Email " required />
+
+        <select id="selectOption" ref={discountRef} required>
+          <option value="">Select spin time</option>
+          <option value={200}>2s</option>
+          <option value={300}> 3s</option>
+          <option value={400}> 4s</option>
+          <option value={500}> 5s</option>
+        </select>
       </div>
       <div id="wheel">
         <canvas

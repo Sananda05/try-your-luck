@@ -24,15 +24,12 @@ const SpinnerComponent = ({
         segColors={colorList}
         winnerList={winnerList}
         setWinnerList={setWinnerList}
-        winningSegment=""
         primaryColor="black"
         primaryColoraround="#ffffffb4"
         contrastColor="white"
         buttonText="Spin"
         isOnlyOnce={false}
         size={200}
-        upDuration={50}
-        downDuration={500}
       />
 
       {/* {winnerModal && <WinnerDetails name={name} result={value} />} */}
